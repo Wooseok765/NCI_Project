@@ -17,9 +17,6 @@ This project is a Household Chores Distribution System for shared houses.
 ## Technology Stack
 - Python
 - Django
-- Django REST Framework
-- ReactJS
-- MySQL
 - GitHub
 
 ## Sprint Progress
@@ -31,8 +28,8 @@ This project is a Household Chores Distribution System for shared houses.
 - Planned initial project structure
 
 ### Sprint 2
-- Implemented initial Django models
-- Registered models in Django admin
+- Implemented initial Django models: poetry, django settup and dependency settup
+- Registered models in Django admin: custom User, HouseholdGroup, ChoreCard, Role, Comment
 - Created and applied migrations
 - Tested models using Django shell
 
