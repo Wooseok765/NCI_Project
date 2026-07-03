@@ -31,9 +31,10 @@ This project is a Household Chores Distribution System for shared houses.
 - Implemented initial Django models: poetry, django settup and dependency settup
 - Registered models in Django admin: custom User, HouseholdGroup, ChoreCard, Role, Comment
 - Created and applied migrations
-- Tested models using Django shell
+- Tested models using Django shell: Django admin interface test, model relationship test, 
 
 ## GitHub issues and Milestone
+- GitHub Milestiones were used to represent each sprint
+- Each milstone contains the issues related to the sprint
 
 
-## Current progress
