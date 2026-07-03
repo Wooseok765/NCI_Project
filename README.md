@@ -3,8 +3,8 @@
 ## Project Description
 This project is a Household Chores Distribution System for shared houses.
 
-## Perpose of this project
-
+## Purpose of this project
+This project aims to help people living in shared houses manage household chores
 
 ## Main Features
 - Create household groups
