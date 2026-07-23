@@ -30,7 +30,6 @@ class ChoreCard(Common):
     )
     checklist = models.TextField()
     difficulty_weight = models.PositiveBigIntegerField(
-        max_length=10,
         default=0,
         choices=DifficultyChoice.choices,
     )
@@ -43,7 +42,10 @@ class ChoreCard(Common):
     assignee = models.ManyToManyField(
         "users.User",
     )
-    completed_at = models.DateField(null=True, blank=True,)
+    completed_at = models.DateField(
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return self.title
