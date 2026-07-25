@@ -13,13 +13,13 @@ class Member(Common):
                     "householdgroup",
                 ),
                 name="duplication_check_for_registration",
-                # naming for this duplication check
+                # naming this duplication check
             )
         ]
 
     class RoleChoice(models.TextChoices):
-        owner = ("owner", "Group Owner")
-        member = ("member", "Member")
+        OWNER = ("owner", "Group Owner")
+        MEMBER = ("member", "Member")
 
     user = models.ForeignKey(
         "users.User",
@@ -41,4 +41,4 @@ class Member(Common):
     )
 
     def __str__(self):
-        return f"{self.user.username} - {self.householdgroup} / {self.role}"
+        return f"{self.user.username}"

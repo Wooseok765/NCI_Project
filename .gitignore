@@ -32,3 +32,15 @@ dist/
 Thumbs.db
 
 *.log
+
+
+# Frontend
+frontEnd/node_modules/
+frontEnd/dist/
+
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.pyc

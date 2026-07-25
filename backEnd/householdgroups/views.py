@@ -26,7 +26,7 @@ class HouseHoldGroups(APIView):
                 Member.objects.create(
                     user=request.user,
                     householdgroup=householdgroup,
-                    role=Member.RoleChoice.owner,
+                    role=Member.RoleChoice.OWNER,
                 )  # When an householdgroup is created, a owner member of the group also created with the login data
 
             return Response(

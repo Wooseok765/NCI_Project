@@ -7,7 +7,7 @@ from chorecards.models import ChoreCard
 class ChoreCardAdmin(admin.ModelAdmin):
     list_display = (
         "title",
-        "household",
+        "householdgroup",
         "checklist",
         "difficulty_weight",
         "status",
