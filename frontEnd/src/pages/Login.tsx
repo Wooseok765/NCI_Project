@@ -30,7 +30,7 @@ function Login() {
 
           try {
             const response = await fetch(
-              "http://127.0.0.1:8000/api/v1/users/login/",
+              "http://localhost:8000/api/v1/users/login/",
               {
                 method: "POST",
                 /* Select the HTTP method type */
@@ -40,6 +40,7 @@ function Login() {
                 },
                 credentials: "include",
                 /* To get cookies from the backend and send them back when making subsequent requests */
+                /* 지금 접근을 시도하는 url에 해당하는 쿠키가 있다면 포함해서 보내라는 뜻, 시도하는 주체를 판단하지 않기 때문에 해킹당해도 검증없이 쿠키를 포함시켜서 백엔드로 보냄 현재는 로그인시도기 때문에 추가 검증에 필요한 기존토큰(쿠키에서 꺼내온)이 없어서 그냥 진행함 */
 
                 body: jsonLoginData,
                 /* Send the JSON string as the request body */

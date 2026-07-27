@@ -20,6 +20,10 @@ function Header() {
         </Button>
 
         <Button asChild>
+          <Link to="/householdgroups/join">Join Group</Link>
+        </Button>
+
+        <Button asChild>
           <Link to={"/signup"}>Sign Up</Link>
         </Button>
       </HStack>

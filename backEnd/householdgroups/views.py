@@ -72,7 +72,7 @@ class JoinHouseHoldGroup(APIView):
         Member.objects.create(
             user=request.user,
             householdgroup=householdgroup,
-            role=Member.RoleChoice.member,
+            role=Member.RoleChoice.MEMBER,
         )
         # if the user is not a member of the group, create an Member object belong to the group as a member
 
