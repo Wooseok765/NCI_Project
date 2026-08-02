@@ -44,3 +44,10 @@ frontEnd/dist/
 # Python
 __pycache__/
 *.pyc
+
+
+.env
+ca.pem
+
+# Django collected static files
+backEnd/staticfiles/

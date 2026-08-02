@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_200_OK, HTTP_204_NO_CONTENT
 from members.models import Member
 from .serializers import (
+    ChoreCardListSerializer,
     CreateChoreCardSerializer,
     ChoreCardSerializer,
     UpdateChoreCardSerializer,
@@ -48,24 +49,72 @@ class ChoreCards(APIView):
             status=HTTP_201_CREATED,
         )
 
-    def get(
-        self, request
-    ):  # Show all chore cards in groups the user is enrolled include the cards that are not related with the user
+    def get(self, request):
+        selected_householdgroup_id = request.query_params.get("householdgroup")
+
+        if selected_householdgroup_id is not None:
+            try:
+                selected_householdgroup_id = int(
+                    selected_householdgroup_id,
+                )
+            except ValueError:
+                raise ParseError(
+                    {
+                        "System": (
+                            "The household group ID " "must be a positive integer."
+                        )
+                    }
+                )
+
+            if selected_householdgroup_id <= 0:
+                raise ParseError(
+                    {
+                        "System": (
+                            "The household group ID " "must be a positive integer."
+                        )
+                    }
+                )
+
+            is_member = Member.objects.filter(
+                user=request.user,
+                householdgroup_id=selected_householdgroup_id,
+            ).exists()
+
+            if not is_member:
+                raise PermissionDenied(
+                    {"System": ("You are not a member of " "this household group.")}
+                )
+
+            chorecards = ChoreCard.objects.filter(
+                householdgroup_id=selected_householdgroup_id,
+            ).order_by(
+                "created_at",
+            )
+
+            serializer = ChoreCardListSerializer(
+                chorecards,
+                many=True,
+            )
+
+            return Response(
+                serializer.data,
+                status=HTTP_200_OK,
+            )
+
         householdgroup_ids = Member.objects.filter(
-            user=request.user,  # find householdgroup IDs the user belong to
-        ).values_list(  # convert the IDs into list form
+            user=request.user,
+        ).values_list(
             "householdgroup_id",
             flat=True,
         )
 
         chorecards = ChoreCard.objects.filter(
             householdgroup_id__in=householdgroup_ids,
-            # fetch the chore cards that include the householdgroup IDs
-        ).order_by(  # display the cards order by generated date
+        ).order_by(
             "created_at",
         )
 
-        serializer = ChoreCardSerializer(
+        serializer = ChoreCardListSerializer(
             chorecards,
             many=True,
         )

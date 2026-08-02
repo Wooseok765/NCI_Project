@@ -34,8 +34,8 @@ class Login(APIView):
             username = serializer.validated_data.get("username")
             password = serializer.validated_data.get("password")
 
-            user = authenticate(
-                request=request,  # for extra data from client to backend just in case
+            user = authenticate(  # 유저네임으로 DB에서 일치하는 객체를 가져와서 비밀번호 해시값이 일치하는지 검사 후 유저 객체 반환 아니면 none
+                request=request,  # 현재 HTTP 요청 정보를 인증 기능에 전달
                 username=username,
                 password=password,
             )  # If there a matched accout with the values, returns an object
@@ -93,6 +93,6 @@ class LogOut(APIView):
         # This removes login data from the current session
 
         return Response(
-            {"System": "Logout successful"},
+            {"system": "Logout successful"},
             status=HTTP_200_OK,
         )

@@ -35,9 +35,34 @@ class CreateChoreCardSerializer(serializers.ModelSerializer):
 
 
 class ChoreCardSerializer(serializers.ModelSerializer):
+    assignee_usernames = serializers.SerializerMethodField()
+
     class Meta:
         model = ChoreCard
-        fields = "__all__"
+        fields = (
+            "id",
+            "title",
+            "householdgroup",
+            "checklist",
+            "difficulty_weight",
+            "status",
+            "assignee",
+            "assignee_usernames",
+            "due_date",
+            "completed_at",
+            "created_at",
+            "updated_at",
+        )
+
+    def get_assignee_usernames(self, chorecard):
+        usernames = []
+
+        for assignee in chorecard.assignee.all():
+            usernames.append(
+                assignee.user.username,
+            )
+
+        return usernames
 
 
 class UpdateChoreCardSerializer(serializers.ModelSerializer):
@@ -74,3 +99,27 @@ class UpdateChoreCardSerializer(serializers.ModelSerializer):
                 )  # check if the assignee(member object) is enrolled to the household group that contains the card(user want to edit)
 
         return data
+
+
+class ChoreCardListSerializer(serializers.ModelSerializer):
+    assignee_usernames = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ChoreCard
+        fields = (
+            "id",
+            "title",
+            "assignee_usernames",
+            "due_date",
+            "difficulty_weight",
+        )
+
+    def get_assignee_usernames(self, chorecard):
+        usernames = []
+
+        for assignee in chorecard.assignee.all():
+            usernames.append(
+                assignee.user.username,
+            )
+
+        return usernames

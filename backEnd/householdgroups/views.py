@@ -14,9 +14,32 @@ class HouseHoldGroups(APIView):
 
     permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        householdgroup_ids = Member.objects.filter(
+            user=request.user,
+        ).values_list(
+            "householdgroup_id",
+            flat=True,
+        )
+
+        householdgroups = HouseHoldGroup.objects.filter(
+            id__in=householdgroup_ids,
+        ).order_by(
+            "-created_at",
+        )
+
+        serializer = HouseHoldGroupSerializer(
+            householdgroups,
+            many=True,
+            context={"request": request},
+        )
+
+        return Response(serializer.data)
+
     def post(self, request):
         serializer = HouseHoldGroupSerializer(
             data=request.data,
+            context={"request": request},
         )
 
         if serializer.is_valid():

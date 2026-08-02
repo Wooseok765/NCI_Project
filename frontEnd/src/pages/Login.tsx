@@ -1,70 +1,111 @@
 import { Button, Heading, Input, Text, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, type SubmitEvent } from "react";
+import { useNavigate } from "react-router";
 
-function Login() {
+function Login({
+  loadLoggedInUser,
+}: {
+  /*
+   * App.tsx에서 전달받은 함수입니다.
+   *
+   * 로그인 성공 후 이 함수를 실행하면
+   * App.tsx가 /users/me/를 요청하여
+   * Header에 표시할 사용자 정보를 저장합니다.
+   */
+  loadLoggedInUser: () => Promise<boolean>;
+}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   /* username == ID that the user enters */
   /* password == Password that the user enters */
 
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
-  return (
-    <form
-      onSubmit={
-        async (event) => {
-          event.preventDefault();
-          /* Prevent refreshing page when this form submiting*/
+  async function loginUser(event: SubmitEvent) {
+    /* event: SubmitEvent<HtmlFormElement>: 매개변수로 들어오는 event라는 변수는 Submit 이벤트 객체가 들어온다는 선언 */
+    /* 함수가 어떤 곳에서 실행될 지 알 수 없어서 매개변수의 타입을 사전에 선언하는것(Typescript의 특징으로 변수의 타입을 지정 할 수 있음)*/
+    /* Submit 타입이면서 html의 form element가 들어온다는 선언(Submit 전용기능 사용 안할꺼면 생략가능) */
+    event.preventDefault();
 
-          setMessage("");
-          /* Reset the previous message */
+    setMessage("");
 
-          const loginData = {
+    try {
+      /*
+       * 브라우저에서 Django 로그인 API로
+       * username과 password를 전송합니다.
+       */
+      const response = await fetch(
+        "http://localhost:8000/api/v1/users/login/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
             username: username,
             password: password,
-          };
-          /* Create JavaScript object to send to the backend */
+          }),
+        },
+      );
 
-          const jsonLoginData = JSON.stringify(loginData);
-          /* Convert the JavaScript object to a JSON string for sending the data to the backend */
+      /*
+       * 백엔드 응답 JSON을 JavaScript 객체로 변환합니다.
+       */
+      const responseData = await response.json();
 
-          try {
-            const response = await fetch(
-              "http://localhost:8000/api/v1/users/login/",
-              {
-                method: "POST",
-                /* Select the HTTP method type */
-                headers: {
-                  "Content-Type": "application/json",
-                  /* Let Django know that we are sending JSON data */
-                },
-                credentials: "include",
-                /* To get cookies from the backend and send them back when making subsequent requests */
-                /* 지금 접근을 시도하는 url에 해당하는 쿠키가 있다면 포함해서 보내라는 뜻, 시도하는 주체를 판단하지 않기 때문에 해킹당해도 검증없이 쿠키를 포함시켜서 백엔드로 보냄 현재는 로그인시도기 때문에 추가 검증에 필요한 기존토큰(쿠키에서 꺼내온)이 없어서 그냥 진행함 */
+      if (!response.ok) {
+        /*
+         * 로그인 실패 메시지를 화면에 표시합니다.
+         */
+        setMessage(
+          responseData.system ||
+            responseData.error ||
+            JSON.stringify(responseData),
+        );
 
-                body: jsonLoginData,
-                /* Send the JSON string as the request body */
-              },
-            );
-            /* This will send HTTP request to the backend and await the response(HTTP response) */
+        return;
+      }
 
-            const responseData = await response.json();
-            /* Convert the response(JSON) to JavaScript object to read the fields inside */
+      /*
+       * 로그인 성공 시 Django가 sessionid 쿠키를 발급합니다.
+       *
+       * 이제 App.tsx의 loadLoggedInUser()를 실행하여
+       * 그 sessionid로 /users/me/를 요청합니다.
+       */
+      const userInformationLoaded = await loadLoggedInUser();
 
-            if (responseData.system) {
-              setMessage(responseData.system);
-              /* 현재 백엔드에서 로그인 성공,실패시 system이라는 필드에 메세지를 저장한다. 그 결과를 보여주는것(백엔드 서버에 접속은 성공했다는 의미)   */
-            } else {
-              setMessage(
-                "The server returned an unexpected response. Please try again later.",
-              ); /* 백엔드와 응답을 주고받는데 성공했지만 system이라는 필드가 없는상태라는 의미 */
-            }
-          } catch (error) {
-            setMessage("Can not connect to the server.");
-          }
-        } /* arrow function */
-      } /* onSubmit */
-    >
+      if (!userInformationLoaded) {
+        setMessage(
+          "Login succeeded, but the user information could not be loaded.",
+        );
+
+        return;
+      }
+
+      /*
+       * 로그인과 사용자 정보 가져오기가 모두 성공하면
+       * 입력창을 비웁니다.
+       */
+      setUsername("");
+      setPassword("");
+
+      /*
+       * Home 화면으로 이동합니다.
+       *
+       * App.tsx의 loggedInUser State가 이미 변경되었으므로
+       * Header는 새로고침 없이 Logout 버튼과 사용자 정보를 표시합니다.
+       */
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      setMessage("Can not connect to the server.");
+    }
+  }
+
+  return (
+    <form onSubmit={loginUser}>
       <VStack gap={4} padding={10} alignItems={"stretch"}>
         <Heading>Login</Heading>
         <Input
