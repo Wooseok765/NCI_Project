@@ -29,7 +29,7 @@ function SignUp() {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/api/v1/users/signup/",
+        "https://nci-project-backend.onrender.com/api/v1/users/signup/",
         {
           method: "POST",
           headers: {

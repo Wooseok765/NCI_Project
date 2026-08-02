@@ -44,7 +44,7 @@ function CreateHouseholdGroup() {
 
         try {
           const response = await fetch(
-            "http://localhost:8000/api/v1/householdgroups/",
+            "https://nci-project-backend.onrender.com/api/v1/householdgroups/",
             {
               method: "POST",
               headers: {

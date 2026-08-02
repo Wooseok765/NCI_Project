@@ -36,7 +36,7 @@ function Login({
        * username과 password를 전송합니다.
        */
       const response = await fetch(
-        "http://localhost:8000/api/v1/users/login/",
+        "https://nci-project-backend.onrender.com/api/v1/users/login/",
         {
           method: "POST",
           headers: {

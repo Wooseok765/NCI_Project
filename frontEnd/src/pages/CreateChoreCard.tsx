@@ -55,7 +55,7 @@ function CreateChoreCard() {
 
       try {
         const response = await fetch(
-          `http://localhost:8000/api/v1/members/${householdGroupId}/`,
+          `https://nci-project-backend.onrender.com/api/v1/members/${householdGroupId}/`,
           {
             method: "GET",
             credentials: "include",
@@ -119,7 +119,7 @@ function CreateChoreCard() {
 
         try {
           const response = await fetch(
-            "http://localhost:8000/api/v1/chorecards/",
+            "https://nci-project-backend.onrender.com/api/v1/chorecards/",
             {
               method: "POST",
               headers: {

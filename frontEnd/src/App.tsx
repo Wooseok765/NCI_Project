@@ -17,13 +17,16 @@ function App() {
 
   async function loadLoggedInUser(): Promise<boolean> {
     try {
-      const response = await fetch("http://localhost:8000/api/v1/users/me/", {
-        /*
-         * 브라우저가 가지고 있는 sessionid 쿠키를
-         * 백엔드 요청에 포함시킵니다.
-         */
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://nci-project-backend.onrender.com/api/v1/users/me/",
+        {
+          /*
+           * 브라우저가 가지고 있는 sessionid 쿠키를
+           * 백엔드 요청에 포함시킵니다.
+           */
+          credentials: "include",
+        },
+      );
 
       /*
        * /users/me/ 요청이 실패했다는 것은
