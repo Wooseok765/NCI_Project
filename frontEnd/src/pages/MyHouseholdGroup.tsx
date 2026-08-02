@@ -565,68 +565,6 @@ function MyHouseholdGroups() {
         ))}
       </Grid>
 
-      <Grid
-        templateColumns={"repeat(auto-fill, 240px)"}
-        justifyContent={"center"}
-        gap={5}
-      >
-        {householdGroups.map((householdGroup) => (
-          <Button
-            type={"button"}
-            key={householdGroup.id}
-            width={"240px"}
-            height={"215px"}
-            padding={5}
-            borderWidth={"2px"}
-            borderRadius={"lg"}
-            borderColor={
-              selectedHouseholdGroup?.id === householdGroup.id
-                ? "blue.500"
-                : "gray.200"
-            }
-            backgroundColor={
-              selectedHouseholdGroup?.id === householdGroup.id
-                ? "blue.50"
-                : "white"
-            }
-            color={"black"}
-            whiteSpace={"normal"}
-            textAlign={"left"}
-            cursor={"pointer"}
-            overflow={"hidden"}
-            _hover={{
-              borderColor: "blue.400",
-              transform: "translateY(-2px)",
-              boxShadow: "md",
-            }}
-            onClick={() => {
-              loadChoreCards(householdGroup);
-            }}
-          >
-            <VStack
-              width={"100%"}
-              height={"200px"}
-              alignItems={"stretch"}
-              gap={1}
-            >
-              <Text fontWeight={"bold"} fontSize={"lg"}>
-                {householdGroup.title}
-              </Text>
-
-              <Text fontSize={"sm"}>Group ID: {householdGroup.id}</Text>
-
-              <Text fontSize={"sm"}>
-                Owner: {householdGroup.owner_username || "No owner"}
-              </Text>
-
-              <Text fontSize={"sm"} flex={1} overflow={"hidden"}>
-                {householdGroup.description || "No description"}
-              </Text>
-            </VStack>
-          </Button>
-        ))}
-      </Grid>
-
       {selectedHouseholdGroup !== null && (
         <VStack alignItems={"stretch"} gap={5}>
           <VStack
