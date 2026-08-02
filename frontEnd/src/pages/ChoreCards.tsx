@@ -66,13 +66,10 @@ function ChoreCards() {
     setErrorMessage("");
 
     try {
-      const response = await fetch(
-        "https://nci-project-backend.onrender.com/api/v1/chorecards/",
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      );
+      const response = await fetch("/api/v1/chorecards/", {
+        method: "GET",
+        credentials: "include",
+      });
 
       const responseData = await response.json();
 
@@ -92,7 +89,7 @@ function ChoreCards() {
 
     try {
       const response = await fetch(
-        `https://nci-project-backend.onrender.com/api/v1/chorecards/${choreCardId}/complete/`,
+        `/api/v1/chorecards/${choreCardId}/complete/`,
         {
           method: "PATCH",
           headers: {
@@ -130,13 +127,10 @@ function ChoreCards() {
     setCommentPayload("");
 
     try {
-      const response = await fetch(
-        `https://nci-project-backend.onrender.com/api/v1/comments/${choreCardId}/`,
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      );
+      const response = await fetch(`/api/v1/comments/${choreCardId}/`, {
+        method: "GET",
+        credentials: "include",
+      });
 
       const responseData = await response.json();
 
@@ -160,20 +154,17 @@ function ChoreCards() {
     }
 
     try {
-      const response = await fetch(
-        `https://nci-project-backend.onrender.com/api/v1/comments/${choreCardId}/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCsrfToken(),
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            payload: commentPayload,
-          }),
+      const response = await fetch(`/api/v1/comments/${choreCardId}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCsrfToken(),
         },
-      );
+        credentials: "include",
+        body: JSON.stringify({
+          payload: commentPayload,
+        }),
+      });
 
       const responseData = await response.json();
 
@@ -242,25 +233,22 @@ function ChoreCards() {
     }
 
     try {
-      const response = await fetch(
-        "https://nci-project-backend.onrender.com/api/v1/chorecards/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCsrfToken(),
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            title: title.trim(),
-            householdgroup: householdGroupIdNumber,
-            checklist: checklist.trim(),
-            difficulty_weight: difficultyWeightNumber,
-            due_date: dueDate === "" ? null : dueDate,
-            assignee: assigneeIdArray,
-          }),
+      const response = await fetch("/api/v1/chorecards/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCsrfToken(),
         },
-      );
+        credentials: "include",
+        body: JSON.stringify({
+          title: title.trim(),
+          householdgroup: householdGroupIdNumber,
+          checklist: checklist.trim(),
+          difficulty_weight: difficultyWeightNumber,
+          due_date: dueDate === "" ? null : dueDate,
+          assignee: assigneeIdArray,
+        }),
+      });
 
       const responseData = await response.json();
 

@@ -83,26 +83,23 @@ function Header({
     setLogoutErrorMessage("");
 
     try {
-      const response = await fetch(
-        "https://nci-project-backend.onrender.com/api/v1/users/logout/",
-        {
-          method: "POST",
+      const response = await fetch("/api/v1/users/logout/", {
+        method: "POST",
 
-          /*
-           * 로그인된 사용자의 POST 요청이므로
-           * CSRF 토큰을 헤더에 넣습니다.
-           */
-          headers: {
-            "X-CSRFToken": getCsrfToken(),
-          },
-
-          /*
-           * 어떤 세션을 로그아웃할 것인지 알려주기 위해
-           * sessionid 쿠키를 백엔드에 보냅니다.
-           */
-          credentials: "include",
+        /*
+         * 로그인된 사용자의 POST 요청이므로
+         * CSRF 토큰을 헤더에 넣습니다.
+         */
+        headers: {
+          "X-CSRFToken": getCsrfToken(),
         },
-      );
+
+        /*
+         * 어떤 세션을 로그아웃할 것인지 알려주기 위해
+         * sessionid 쿠키를 백엔드에 보냅니다.
+         */
+        credentials: "include",
+      });
 
       if (response.ok) {
         /*

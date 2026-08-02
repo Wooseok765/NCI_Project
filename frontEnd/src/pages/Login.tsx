@@ -35,20 +35,17 @@ function Login({
        * 브라우저에서 Django 로그인 API로
        * username과 password를 전송합니다.
        */
-      const response = await fetch(
-        "https://nci-project-backend.onrender.com/api/v1/users/login/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            username: username,
-            password: password,
-          }),
+      const response = await fetch("/api/v1/users/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
 
       /*
        * 백엔드 응답 JSON을 JavaScript 객체로 변환합니다.

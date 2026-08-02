@@ -121,13 +121,10 @@ function MyHouseholdGroups() {
       setErrorMessage("");
 
       try {
-        const response = await fetch(
-          "https://nci-project-backend.onrender.com/api/v1/householdgroups/",
-          {
-            method: "GET",
-            credentials: "include",
-          },
-        );
+        const response = await fetch("/api/v1/householdgroups/", {
+          method: "GET",
+          credentials: "include",
+        });
 
         const responseData = await response.json();
 
@@ -161,7 +158,7 @@ function MyHouseholdGroups() {
 
     try {
       const response = await fetch(
-        `https://nci-project-backend.onrender.com/api/v1/chorecards/?householdgroup=${householdGroup.id}`,
+        `/api/v1/chorecards/?householdgroup=${householdGroup.id}`,
         {
           method: "GET",
           credentials: "include",
@@ -195,7 +192,7 @@ function MyHouseholdGroups() {
 
     try {
       const choreCardResponse = await fetch(
-        `https://nci-project-backend.onrender.com/api/v1/chorecards/${choreCardId}/`,
+        `/api/v1/chorecards/${choreCardId}/`,
         {
           method: "GET",
           credentials: "include",
@@ -212,13 +209,10 @@ function MyHouseholdGroups() {
 
       setSelectedChoreCard(choreCardData);
 
-      const commentsResponse = await fetch(
-        `https://nci-project-backend.onrender.com/api/v1/comments/${choreCardId}/`,
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      );
+      const commentsResponse = await fetch(`/api/v1/comments/${choreCardId}/`, {
+        method: "GET",
+        credentials: "include",
+      });
 
       const commentsData = await commentsResponse.json();
 
@@ -324,7 +318,7 @@ function MyHouseholdGroups() {
 
     try {
       const response = await fetch(
-        `https://nci-project-backend.onrender.com/api/v1/chorecards/${selectedChoreCard.id}/`,
+        `/api/v1/chorecards/${selectedChoreCard.id}/`,
         {
           method: "PATCH",
           headers: {
@@ -392,7 +386,7 @@ function MyHouseholdGroups() {
 
     try {
       const response = await fetch(
-        `https://nci-project-backend.onrender.com/api/v1/chorecards/${selectedChoreCard.id}/`,
+        `/api/v1/chorecards/${selectedChoreCard.id}/`,
         {
           method: "DELETE",
           headers: {
@@ -448,7 +442,7 @@ function MyHouseholdGroups() {
 
     try {
       const response = await fetch(
-        `https://nci-project-backend.onrender.com/api/v1/comments/${selectedChoreCard.id}/`,
+        `/api/v1/comments/${selectedChoreCard.id}/`,
         {
           method: "POST",
           headers: {

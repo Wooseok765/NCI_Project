@@ -43,18 +43,15 @@ function CreateHouseholdGroup() {
         };
 
         try {
-          const response = await fetch(
-            "https://nci-project-backend.onrender.com/api/v1/householdgroups/",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "x-csrftoken": getCsrfToken(),
-              },
-              credentials: "include",
-              body: JSON.stringify(groupData),
+          const response = await fetch("/api/v1/householdgroups/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-csrftoken": getCsrfToken(),
             },
-          );
+            credentials: "include",
+            body: JSON.stringify(groupData),
+          });
 
           const responseData = await response.json();
 

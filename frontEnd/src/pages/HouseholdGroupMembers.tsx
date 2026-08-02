@@ -24,13 +24,10 @@ function HouseholdGroupMembers() {
         setMembers([]);
 
         try {
-          const response = await fetch(
-            `https://nci-project-backend.onrender.com/api/v1/members/${groupId}/`,
-            {
-              method: "GET",
-              credentials: "include",
-            },
-          );
+          const response = await fetch(`/api/v1/members/${groupId}/`, {
+            method: "GET",
+            credentials: "include",
+          });
 
           const responseData = await response.json();
 

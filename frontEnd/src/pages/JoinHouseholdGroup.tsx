@@ -35,18 +35,15 @@ function JoinHouseholdGroup() {
           const jsonJoinData = JSON.stringify(joinData);
 
           try {
-            const response = await fetch(
-              "https://nci-project-backend.onrender.com/api/v1/householdgroups/join/",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "x-csrftoken": getCsrfToken(),
-                },
-                credentials: "include",
-                body: jsonJoinData,
+            const response = await fetch("/api/v1/householdgroups/join/", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-csrftoken": getCsrfToken(),
               },
-            );
+              credentials: "include",
+              body: jsonJoinData,
+            });
 
             const responseData = await response.json();
 

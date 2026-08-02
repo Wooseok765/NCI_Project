@@ -54,13 +54,10 @@ function CreateChoreCard() {
       setAssigneeIds([]);
 
       try {
-        const response = await fetch(
-          `https://nci-project-backend.onrender.com/api/v1/members/${householdGroupId}/`,
-          {
-            method: "GET",
-            credentials: "include",
-          },
-        );
+        const response = await fetch(`/api/v1/members/${householdGroupId}/`, {
+          method: "GET",
+          credentials: "include",
+        });
 
         const responseData = await response.json();
 
@@ -118,18 +115,15 @@ function CreateChoreCard() {
         };
 
         try {
-          const response = await fetch(
-            "https://nci-project-backend.onrender.com/api/v1/chorecards/",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": getCsrfToken(),
-              },
-              credentials: "include",
-              body: JSON.stringify(choreCardData),
+          const response = await fetch("/api/v1/chorecards/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": getCsrfToken(),
             },
-          );
+            credentials: "include",
+            body: JSON.stringify(choreCardData),
+          });
 
           const responseData = await response.json();
 

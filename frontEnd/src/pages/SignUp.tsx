@@ -28,16 +28,13 @@ function SignUp() {
     /* JavaScript 객체를 JSON 문자열로 변환(fetch 할 때 body에 포함시키기 위해서) */
 
     try {
-      const response = await fetch(
-        "https://nci-project-backend.onrender.com/api/v1/users/signup/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: jsonSignUpData,
+      const response = await fetch("/api/v1/users/signup/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: jsonSignUpData,
+      });
 
       const responseData = await response.json();
       /* Django가 보낸 JSON 응답을 JavaScript 객체로 변환(JavaScript 문법으로 풀어서 사용하기 위해) */
