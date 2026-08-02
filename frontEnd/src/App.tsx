@@ -24,6 +24,7 @@ function App() {
            * 브라우저가 가지고 있는 sessionid 쿠키를
            * 백엔드 요청에 포함시킵니다.
            */
+          method: "GET",
           credentials: "include",
         },
       );
@@ -55,11 +56,7 @@ function App() {
        *
        * 이 State가 변경되면 React가 Header를 다시 표시합니다.
        */
-      setLoggedInUser({
-        id: responseData.id,
-        username: responseData.username,
-        email: responseData.email,
-      });
+      setLoggedInUser(responseData);
 
       return true;
     } catch (error) {
