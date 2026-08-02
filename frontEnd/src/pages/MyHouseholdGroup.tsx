@@ -478,15 +478,92 @@ function MyHouseholdGroups() {
     <VStack alignItems={"stretch"} gap={8} padding={8}>
       <Heading textAlign={"center"}>My Household Groups</Heading>
 
+      {/* 그룹 목록을 백엔드에서 가져오는 중일 때 표시 */}
       {isLoadingGroups && (
         <Text textAlign={"center"}>Loading household groups...</Text>
       )}
 
+      {/*
+       * 그룹 목록 요청이 끝났고,
+       * 사용자가 가입한 그룹이 0개일 때만 표시
+       */}
       {!isLoadingGroups && householdGroups.length === 0 && (
-        <Text textAlign={"center"}>
-          You have not joined a household group yet.
-        </Text>
+        <VStack
+          alignItems={"stretch"}
+          gap={4}
+          padding={5}
+          borderWidth={"1px"}
+          borderRadius={"md"}
+        >
+          <Text>You have not joined any household group yet.</Text>
+
+          <Button asChild>
+            <Link to={"/householdgroup/create"}>Create Household Group</Link>
+          </Button>
+        </VStack>
       )}
+
+      <Grid
+        templateColumns={"repeat(auto-fill, 240px)"}
+        justifyContent={"center"}
+        gap={5}
+      >
+        {householdGroups.map((householdGroup) => (
+          <Button
+            type={"button"}
+            key={householdGroup.id}
+            width={"240px"}
+            height={"215px"}
+            padding={5}
+            borderWidth={"2px"}
+            borderRadius={"lg"}
+            borderColor={
+              selectedHouseholdGroup?.id === householdGroup.id
+                ? "blue.500"
+                : "gray.200"
+            }
+            backgroundColor={
+              selectedHouseholdGroup?.id === householdGroup.id
+                ? "blue.50"
+                : "white"
+            }
+            color={"black"}
+            whiteSpace={"normal"}
+            textAlign={"left"}
+            cursor={"pointer"}
+            overflow={"hidden"}
+            _hover={{
+              borderColor: "blue.400",
+              transform: "translateY(-2px)",
+              boxShadow: "md",
+            }}
+            onClick={() => {
+              loadChoreCards(householdGroup);
+            }}
+          >
+            <VStack
+              width={"100%"}
+              height={"200px"}
+              alignItems={"stretch"}
+              gap={1}
+            >
+              <Text fontWeight={"bold"} fontSize={"lg"}>
+                {householdGroup.title}
+              </Text>
+
+              <Text fontSize={"sm"}>Group ID: {householdGroup.id}</Text>
+
+              <Text fontSize={"sm"}>
+                Owner: {householdGroup.owner_username || "No owner"}
+              </Text>
+
+              <Text fontSize={"sm"} flex={1} overflow={"hidden"}>
+                {householdGroup.description || "No description"}
+              </Text>
+            </VStack>
+          </Button>
+        ))}
+      </Grid>
 
       <Grid
         templateColumns={"repeat(auto-fill, 240px)"}
