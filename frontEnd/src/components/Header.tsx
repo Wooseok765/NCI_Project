@@ -134,7 +134,7 @@ function Header({
       padding={5}
       borderBottomWidth={"4px"}
     >
-      <Heading>HCDS</Heading>
+      <Heading>Housechore Distribution System</Heading>
       <HStack>
         <HStack>
           <Button asChild>
