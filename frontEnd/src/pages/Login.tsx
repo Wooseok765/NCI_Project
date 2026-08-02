@@ -22,6 +22,16 @@ function Login({
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  function getCsrfToken() {
+    const csrfCookie = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("csrftoken="));
+
+    return csrfCookie
+      ? decodeURIComponent(csrfCookie.trim().split("=")[1])
+      : "";
+  }
+
   async function loginUser(event: SubmitEvent) {
     /* event: SubmitEvent<HtmlFormElement>: 매개변수로 들어오는 event라는 변수는 Submit 이벤트 객체가 들어온다는 선언 */
     /* 함수가 어떤 곳에서 실행될 지 알 수 없어서 매개변수의 타입을 사전에 선언하는것(Typescript의 특징으로 변수의 타입을 지정 할 수 있음)*/
@@ -39,6 +49,7 @@ function Login({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "x-csrftoken": getCsrfToken(),
         },
         credentials: "include",
         body: JSON.stringify({
